@@ -3,6 +3,6 @@ Rails.application.routes.draw do
 
   namespace :v1 do
     resource :users, only: [:create]
-    post 'login', to: 'sessions#auth'
+    post 'login', to: 'sessions#create'
   end
 end

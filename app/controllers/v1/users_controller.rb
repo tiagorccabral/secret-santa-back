@@ -1,9 +1,12 @@
 module V1
-  class UsersController < ApplicationController
+  class UsersController < ApiController
+    skip_before_action :authorized, only: [:create]
+
     def create
       user = User.create(user_params)
       if user.valid?
-        render json: user, status: :created
+        @token = encode_token(user_id: user.id)
+        render json: {user: user, jwt: @token}, status: :created
       else
         render json: {error: 'Falha ao criar usuário', msg: user.errors},
                status: :not_acceptable
