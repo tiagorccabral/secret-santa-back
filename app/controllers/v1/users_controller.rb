@@ -2,6 +2,13 @@ module V1
   class UsersController < ApiController
     skip_before_action :authorized, only: [:create]
 
+    # GET v1/users
+    def index
+      @users = User.all
+      render json: {data: @users}, except: [:password_digest], status: :accepted
+    end
+
+    # POST v1/users
     def create
       user = User.create(user_params)
       if user.valid?
