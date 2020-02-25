@@ -1,6 +1,7 @@
 module V1
   class UsersController < ApiController
     skip_before_action :authorized, only: [:create]
+    before_action :set_user, only: [:update]
 
     # GET v1/users
     def index
@@ -20,7 +21,20 @@ module V1
       end
     end
 
+    # PATCH/PUT v1/users/1
+    def update
+      if @user.update(user_params)
+        render json: {data: @user}
+      else
+        render json: @user.errors, status: :unprocessable_entity
+      end
+    end
+
     private
+
+    def set_user
+      @user = User.find(params[:id])
+    end
 
     def user_params
       params.require(:user).permit(:email, :first_name, :last_name, :password)
