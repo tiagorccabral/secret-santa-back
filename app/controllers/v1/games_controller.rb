@@ -48,7 +48,7 @@ module V1
     end
 
     def game_params
-      params.require(:game).permit(:title, :description, :user_ids => [])
+      params.require(:game).permit(:title, :description, :minimum_cost, :is_active, :user_ids => [])
     end
   end
 end
